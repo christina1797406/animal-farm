@@ -1,11 +1,13 @@
 #include "Crop.h"
 
+// Default constructor
 Crop::Crop()
     : name(""),
       growthRate(0),
       waterNeeded(0),
       harvestYield(0.0),
       isHarvested(false) {}
+// Parameterized constructor
 Crop::Crop(std::string name, int growthRate, int waterNeeded,
            double harvestYield)
     : name(name),
@@ -14,8 +16,10 @@ Crop::Crop(std::string name, int growthRate, int waterNeeded,
       harvestYield(harvestYield),
       isHarvested(false) {}
 
+// Setter method
 void Crop::setName(std::string name) { this->name = name; }
 
+// Getter method
 std::string Crop::getName() const { return name; }
 
 void Crop::set_growthRate(int growthRate) { this->growthRate = growthRate; }
@@ -31,5 +35,7 @@ void Crop::set_harvestYield(double harvestYield) {
 }
 
 double Crop::get_harvestYield() const { return harvestYield; }
+
+// Virtual function implementation
 
 bool Crop::get_isHarvested() { return isHarvested; }

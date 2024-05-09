@@ -3,8 +3,10 @@
 #include "Crop.h"
 
 int main() {
+  // Creates a crop object
   Crop crop("Oat", 5, 10, 5.5);
 
+  // Print crop's details
   std::cout << "Crop name: " << crop.getName() << std::endl;
   std::cout << "Growth rate: " << crop.get_growthRate() << std::endl;
   std::cout << "Crop name: " << crop.get_waterNeeded() << std::endl;
