@@ -23,7 +23,6 @@ class Crop {
   int growthRate;       // growth rate of the crop
   int waterNeeded;      // amount of water needed by crop
   double harvestYield;  // the harvest yield of the crop
-  bool isHarvested;     // flag indicating whether the crop is harvested
 };
 
 #endif
