@@ -18,7 +18,7 @@ class Crop {
   virtual bool
   get_isHarvested();  // virtual function (can be overriden by derived classes)
 
- private:
+ protected:
   std::string name;     // name of the crop
   int growthRate;       // growth rate of the crop
   int waterNeeded;      // amount of water needed by crop

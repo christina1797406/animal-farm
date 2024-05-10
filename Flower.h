@@ -8,7 +8,7 @@ class Flower : public Crop {  // Flower inherits from Crop class
  public:
   Flower();  // Constructor
   Flower(std::string name, int growthRate, int waterNeeded, double harvestYield,
-         bool isHarvested, std::string colour);
+         std::string colour);
 
   // Setter for colour
   void setColour(std::string colour);
