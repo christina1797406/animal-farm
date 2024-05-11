@@ -1,6 +1,5 @@
 #include "seasonalVeg.h"
 
-#include <iostream>  // For cout
 #include <string>
 // Default constructor
 seasonalVeg::seasonalVeg() : Vegetable(), season("") {}
