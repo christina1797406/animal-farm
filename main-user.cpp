@@ -5,12 +5,12 @@
 int main() {
   std::string name;
   // Prompt the user to enter their name
-  std::cout << "PLease enter your name: ";
+  std::cout << "Please enter your name: ";
   std::getline(std::cin, name);
 
   int age;
   // Prompt the user to enter their age
-  std::cout << "PLease enter your age: ";
+  std::cout << "Please enter your age: ";
   std::cin >> age;
 
   // Clear the input buffer
