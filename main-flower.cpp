@@ -14,30 +14,39 @@ int main() {
   std::cout << "4. Green" << std::endl;
 
   int choice;
-  std::cout << "Enter your choice: ";
-  std::cin >> choice;
+  bool validChoice = false;
 
-  // Set the colour based on the player's choice
-  switch (choice) {
-    case 1:
-      colour = "Red";
-      break;
-    case 2:
-      colour = "Blue";
-      break;
-    case 3:
-      colour = "Yellow";
-      break;
-    case 4:
-      colour = "Green";
-      break;
-    default:
-      std::cout << "Invalid choice! Defaulting to Red." << std::endl;
-      colour = "Red";
+  // Loop until a valid choice is made
+  while (!validChoice) {
+    std::cout << "Enter your choice: ";
+    std::cin >> choice;
+
+    // Set the colour based on the player's choice
+    switch (choice) {
+      case 1:
+        colour = "Red";
+        validChoice = true;
+        break;
+      case 2:
+        colour = "Blue";
+        validChoice = true;
+        break;
+      case 3:
+        colour = "Yellow";
+        validChoice = true;
+        break;
+      case 4:
+        colour = "Green";
+        validChoice = true;
+        break;
+      default:
+        std::cout << "Invalid choice! Please choose a number between 1 and 4."
+                  << std::endl;
+    }
   }
 
   // Create a Flower object with the chosen colour
-  Flower flower("Rose", 10, 5, 3.5, colour);
+  Flower flower("Flower", 10, 5, 3.5, colour);
 
   // Display flower details
   std::cout << "You chose to grow a " << colour << " flower." << std::endl;
@@ -50,6 +59,5 @@ int main() {
   } else {
     std::cout << "The flower is not yet harvested." << std::endl;
   }
-
   return 0;
 }
