@@ -1,15 +1,15 @@
-#include <iostream>
-
 // main-shovel.cpp
 #include <iostream>
 
 #include "Shovel.h"
 
 int main() {
-  // Create an instance of Shovel
-  Shovel shovel;
+  int durability;
+  std::cout << "Enter the durability of the shovel (maximum 4): ";
+  std::cin >> durability;
 
-  // Use the shovel
+  Shovel shovel(durability);
+
   shovel.Use();
 
   return 0;

@@ -3,7 +3,7 @@
 
 #include <iostream>
 
-Shovel::Shovel() : durability(4) {}
+Shovel::Shovel() : durability(0) {}
 
 Shovel::Shovel(int durability) : durability(durability) {}
 
@@ -13,12 +13,23 @@ void Shovel::repair() {
 }
 
 void Shovel::Use() {
-  if (durability > 0) {
-    // Perform the action using the shovel
-    std::cout << "Using the shovel..." << std::endl;
-    durability--;  // Example decrementing the durability
-  } else {
-    std::cout << "Shovel is broken. Please repair it before using."
+  if (durability == 0) {
+    std::cout << "Shovel is not durable. Please repair it before using."
               << std::endl;
+    char choice;
+    std::cout << "Do you want to repair the shovel? (y/n): ";
+    std::cin >> choice;
+    if (choice == 'y') {
+      repair();
+      std::cout << "Shovel repaired. You can use it now." << std::endl;
+    } else {
+      std::cout << "You chose not to repair the shovel." << std::endl;
+    }
+  } else if (durability > 0 && durability <= 4) {
+    std::cout << "Shovel is durable. You can use the shovel." << std::endl;
+  } else {
+    std::cout
+        << "Invalid durability input. Please enter a value between 0 and 4."
+        << std::endl;
   }
 }
