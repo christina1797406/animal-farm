@@ -3,11 +3,16 @@
 #include "WaterCan.h"
 
 int main() {
-  // Create instances of WaterCan
+  // Create an instance of WaterCan
   WaterCan waterCan;
-  // Use the equipment
-  waterCan.fillWater(5.0);  // Fill the water can with 5 units of water
 
+  // Prompt the user to input the water level
+  double waterLevel;
+  std::cout << "Enter the water level of the can in liters: ";
+  std::cin >> waterLevel;
+
+  // Set the initial water level
+  waterCan.fillWater(waterLevel);
   // Use the water can
   waterCan.Use();
 
