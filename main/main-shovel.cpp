@@ -1,7 +1,7 @@
 // main-shovel.cpp
 #include <iostream>
 
-#include "include/Shovel.h"
+#include "../include/Shovel.h"
 
 int main() {
   int durability;

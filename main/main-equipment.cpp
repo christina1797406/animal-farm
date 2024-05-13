@@ -1,8 +1,8 @@
 // main.cpp
 #include <iostream>
 
-#include "include/Shovel.h"
-#include "include/WaterCan.h"
+#include "../include/Shovel.h"
+#include "../include/WaterCan.h"
 
 int main() {
   // Create instances of WaterCan and Shovel

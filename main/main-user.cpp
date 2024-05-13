@@ -1,6 +1,6 @@
 #include <iostream>
 
-#include "include/User.h"
+#include "../include/User.h"
 
 int main() {
   std::string name;
