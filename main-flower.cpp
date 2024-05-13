@@ -8,10 +8,10 @@ int main() {
 
   // Display menu for selecting flower colour
   std::cout << "Choose the colour of the flower you want to grow:" << std::endl;
-  std::cout << "1. Red" << std::endl;
-  std::cout << "2. Blue" << std::endl;
-  std::cout << "3. Yellow" << std::endl;
-  std::cout << "4. Green" << std::endl;
+  std::cout << "1. White" << std::endl;
+  std::cout << "2. Orange" << std::endl;
+  std::cout << "3. Red" << std::endl;
+  std::cout << "4. Yellow" << std::endl;
 
   int choice;
   bool validChoice = false;
@@ -24,19 +24,19 @@ int main() {
     // Set the colour based on the player's choice
     switch (choice) {
       case 1:
-        colour = "Red";
+        colour = "White";
         validChoice = true;
         break;
       case 2:
-        colour = "Blue";
+        colour = "Orange";
         validChoice = true;
         break;
       case 3:
-        colour = "Yellow";
+        colour = "Red";
         validChoice = true;
         break;
       case 4:
-        colour = "Green";
+        colour = "Yellow";
         validChoice = true;
         break;
       default:
