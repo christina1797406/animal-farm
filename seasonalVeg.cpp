@@ -1,4 +1,4 @@
-#include "../include/seasonalVeg.h"
+#include "seasonalVeg.h"
 
 #include <string>
 // Default constructor

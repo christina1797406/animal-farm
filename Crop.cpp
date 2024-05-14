@@ -1,4 +1,4 @@
-#include "../include/Crop.h"
+#include "Crop.h"
 
 // Default constructor
 Crop::Crop() : name(""), growthRate(0), waterNeeded(0), harvestYield(0.0) {}
