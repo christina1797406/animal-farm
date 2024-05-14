@@ -2,7 +2,6 @@
 #include <string>
 
 #include "Flower.h"
-
 int main() {
   std::string colour;
 
