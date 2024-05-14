@@ -1,6 +1,6 @@
 #include <iostream>
 
-#include "../include/Vegetable.h"
+#include "Vegetable.h"
 
 int main() {
   std::string type;

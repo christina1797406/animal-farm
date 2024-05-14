@@ -1,6 +1,6 @@
 #include <iostream>
 
-#include "../include/WaterCan.h"
+#include "WaterCan.h"
 
 int main() {
   // Create an instance of WaterCan

@@ -1,6 +1,6 @@
 #include <iostream>
 
-#include "../include/seasonalVeg.h"
+#include "seasonalVeg.h"
 
 int main() {
   std::string type;

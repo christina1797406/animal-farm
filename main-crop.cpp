@@ -1,6 +1,6 @@
 #include <iostream>
 
-#include "../include/Crop.h"
+#include "Crop.h"
 
 int main() {
   // Creates a crop object

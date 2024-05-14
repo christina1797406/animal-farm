@@ -1,7 +1,7 @@
 #include <iostream>
 #include <string>
 
-#include "../include/Flower.h"
+#include "Flower.h"
 
 int main() {
   std::string colour;
