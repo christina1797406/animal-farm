@@ -1,4 +1,4 @@
-#include "../include/Equipment.h"
+#include "Equipment.h"
 
 Equipment::Equipment() : no_of_equipment(0) {}
 

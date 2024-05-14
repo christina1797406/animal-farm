@@ -1,4 +1,4 @@
-#include "../include/User.h"
+#include "User.h"
 
 // Default constructor
 User::User() : age(0) {}
