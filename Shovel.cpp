@@ -12,6 +12,8 @@ void Shovel::repair() {
   durability = 4;
 }
 
+int Shovel::getDurability() const { return durability; }
+
 void Shovel::Use() {
   if (durability == 0) {
     std::cout << "Shovel is not durable. Please repair it before using."

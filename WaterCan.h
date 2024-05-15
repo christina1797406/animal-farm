@@ -15,7 +15,7 @@ class WaterCan : public Equipment {
   // Overridden method to use the water can
   void Use() override;
 
- private:
+ //protected:
   double waterLevel;  // Water level in the can
 };
 

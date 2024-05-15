@@ -12,6 +12,9 @@ class Shovel : public Equipment {
   // Method to repair the shovel
   void repair();
 
+  // Method to get the durability of the shovel
+  int getDurability() const;
+
   // Overridden method to use the shovel
   void Use() override;
 
