@@ -4,6 +4,7 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
 #include <string>
+
 // include class header files
 #include "User.h"
 #include "Flower.h"
@@ -14,7 +15,7 @@ class GameEntity {
     private:
         sf::RenderWindow* win;
         User* user;
-        Flower* flower;
+        std::vector<Flower*> flowers;       // to store multiple flowers
 
         sf::Text info;
         sf::Font font;
@@ -24,7 +25,8 @@ class GameEntity {
         GameEntity(int size, std::string title) {
             win =       new sf::RenderWindow(sf::VideoMode(size,size), title);
             user =      new User();
-            flower =    new Flower();
+
+            //// add code
         }
     
 
@@ -52,8 +54,8 @@ class GameEntity {
         }
         
         ~GameEntity() {
-            delete [] flower;
             delete win;
+            delete user;
         }
 };
 
