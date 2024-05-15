@@ -1,5 +1,7 @@
 #include "User.h"
 #include "GameEntity.h"
+#include "Crop.h"
+#include "Flower.h"
 #include <iostream>
 
 // Default constructor

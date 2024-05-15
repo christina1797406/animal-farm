@@ -8,6 +8,9 @@ class User {
  public:
   User();                           // constructor
   User(std::string name, int age);
+
+  std::vector<Flower*> flowers;
+  int flower_size = 10;
   
   // Setter methods
   void setName(std::string name);
@@ -33,6 +36,15 @@ class User {
   void move_up(int speed) {
       sprite.move(0,-speed);
   }
+
+  // Plant function
+  void plant() {
+    // code
+    flowers.push_back(new Flower("/*/"));     // LINE INCOMPLETE
+  }
+
+  // more functions..
+
 
  private:
   std::string name;  // user's name

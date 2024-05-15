@@ -64,10 +64,14 @@ class GameEntity {
                             user->move_down(6);
                     }
 
-                    
+                    // 2. to plant a flower
+                    if (Keyboard::isKeyPressed(Keyboard::P)) {
+                            user->plant();              // add 'plant()' function
+                    }
 
 
-                    
+
+
                 }
 
                 win->clear();
