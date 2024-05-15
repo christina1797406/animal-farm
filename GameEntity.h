@@ -5,18 +5,26 @@
 #include <iostream>
 #include <string>
 // include class header files
+#include "User.h"
+#include "Flower.h"
 
 using namespace sf;
 
 class GameEntity {
     private:
         sf::RenderWindow* win;
+        User* user;
+        Flower* flower;
 
+        sf::Text info;
+        sf::Font font;
 
 
     public:
         GameEntity(int size, std::string title) {
-            win = new sf::RenderWindow(sf::VideoMode(size,size), title);
+            win =       new sf::RenderWindow(sf::VideoMode(size,size), title);
+            user =      new User();
+            flower =    new Flower();
         }
     
 
@@ -38,11 +46,15 @@ class GameEntity {
                 }
 
                 win->clear();
+                win->display();
                 
             }
         }
         
-        ~GameEntity() {}
+        ~GameEntity() {
+            delete [] flower;
+            delete win;
+        }
 };
 
 #endif
