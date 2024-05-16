@@ -1,13 +1,14 @@
-//#include "Shovel.h"
+// #include "Shovel.h"
 #include "Farm.h"
 
 #include <iostream>
 
 Farm::Farm(const std::string& name, int money, const User& user)
-    : farmName(farmName), money(money), numCrops(0), user(user) {
+    : farmName(farmName), money(money), numCrops(0), user(user), shovel() {
   // Initialize other attributes and arrays
   // crops = new Crop*[MAX_CROPS]; // MAX_CROPS should be defined
   equipments = new Equipment*[2];  // Assuming 2 is the number of equipments
+  equipments[0] = &shovel;         // Assign the shovel to the equipment array
 }
 
 Farm::~Farm() {
@@ -199,23 +200,17 @@ void Farm::refillWaterCan() {
 }
 
 void Farm::repairShovel() {
-  if (shovel.durability == 4) {
-    std::cout << "Shovel is already at full durability." << std::endl;
-    return;
+  if (shovel.getDurability() == 0) {
+    // Check if the durability of the shovel is 0
+    if (money >= 30) {
+      // Check if the player has enough money to pay for the repair
+      money -= 30;      // Deduct 30 coins for repair
+      shovel.repair();  // Call the repair method of the shovel
+      std::cout << "Shovel repaired. You can use it now." << std::endl;
+    } else {
+      std::cout << "Not enough money to repair the shovel." << std::endl;
+    }
+  } else {
+    std::cout << "Shovel is not damaged. No repair needed." << std::endl;
   }
-
-  int cost = 30;
-  if (money < cost) {
-    std::cout << "Insufficient funds to repair the shovel." << std::endl;
-    return;
-  }
-
-  // Deduct money from user
-  money -= cost;
-
-  // Repair the shovel
-  shovel.repair();
-
-  std::cout << "Shovel successfully repaired." << std::endl;
-  std::cout << "You have been charged " << cost << " coins." << std::endl;
 }
