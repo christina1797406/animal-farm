@@ -4,13 +4,11 @@
 #include "Shovel.h"
 
 int main() {
-  int durability;
-  std::cout << "Enter the durability of the shovel (maximum 4): ";
-  std::cin >> durability;
+  Shovel shovel;
 
-  Shovel shovel(durability);
-
-  shovel.Use();
+  for (int i = 0; i < 5; ++i) {  // Simulate using the shovel 4 times
+    shovel.Use();
+  }
 
   return 0;
 }
