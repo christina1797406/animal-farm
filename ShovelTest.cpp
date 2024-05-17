@@ -11,23 +11,38 @@ class ShovelTest {
 
  private:
   void testRepair() {
-    Shovel shovel(2);
+    Shovel shovel;
     shovel.repair();
-    if (shovel.get_no_of_equipment() != 4) {
+    if (shovel.getDurability() != 4) {
       std::cout << "Test repair failed!" << std::endl;
+    } else {
+      std::cout << "Test repair passed!" << std::endl;
     }
   }
 
   void testUse() {
-    Shovel shovel(3);
-    std::cout << "Testing with durability = 3:" << std::endl;
+    Shovel shovel;
+    shovel.repair();
+    std::cout << "Testing with durability = 4:" << std::endl;
     shovel.Use();
-    std::cout << std::endl;
+    if (shovel.getDurability() != 3) {
+      std::cout << "Test use failed!" << std::endl;
+    } else {
+      std::cout << "Test use passed!" << std::endl;
+    }
 
-    Shovel brokenShovel(0);
+    Shovel brokenShovel;
+    brokenShovel.repair();
+    for (int i = 0; i < 4; ++i) {
+      brokenShovel.Use();
+    }
     std::cout << "Testing with durability = 0:" << std::endl;
     brokenShovel.Use();
-    std::cout << std::endl;
+    if (brokenShovel.getDurability() != 0) {
+      std::cout << "Test broken shovel use failed!" << std::endl;
+    } else {
+      std::cout << "Test broken shovel use passed!" << std::endl;
+    }
   }
 };
 
