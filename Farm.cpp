@@ -3,7 +3,7 @@
 
 #include <iostream>
 
-Farm::Farm(std::string name, int money, const User& user)
+Farm::Farm(std::string farmName, int money, const User& user)
     : farmName(farmName), money(money), numCrops(0), user(user), shovel() {
   // Initialize other attributes and arrays
   // crops = new Crop*[MAX_CROPS]; // MAX_CROPS should be defined
@@ -17,7 +17,7 @@ Farm::~Farm() {
   delete[] equipments;
 }
 
-void Farm::set_farmName(std::string name) { this->farmName = farmName; }
+void Farm::set_farmName(std::string farmName) { this->farmName = farmName; }
 
 std::string Farm::get_farmName() const { return farmName; }
 
