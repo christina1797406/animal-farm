@@ -4,7 +4,7 @@ CXXFLAGS = -std=c++11 -Wall -Werror -Wextra -Iinclude
 LIBFLAGS = -Llib -lsfml-graphics -lsfml-window -lsfml-system # ADDING LIBRARY FLAGS FOR SFML
 OBJ_DIR = obj
 BIN_DIR = bin
-TARGET = vs_pet_store
+TARGET = Farm Simulator
 
 # Source and object files
 SOURCES = $(wildcard *.cpp)
