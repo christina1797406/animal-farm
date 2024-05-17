@@ -6,10 +6,11 @@
             "type": "shell",
             "command": "g++",
             "args": [
+                "-std=c++17",
                 "-g",
-                "${file}",
+                "${workspaceFolder}/*.cpp",  // This includes all .cpp files in the workspace folder
                 "-o",
-                "${fileDirname}/${fileBasenameNoExtension}",
+                "${workspaceFolder}/sfml-app",
                 "-lsfml-graphics",
                 "-lsfml-window",
                 "-lsfml-system"
@@ -22,3 +23,4 @@
         }
     ]
 }
+
