@@ -8,7 +8,7 @@ TARGET = Farm Simulator
 
 # Source and object files
 SOURCES = $(wildcard *.cpp)
-OBJECTS = $(patsubst %.cpp, $(OBJ_DIR)/%.o, $(SOURCES))
+OBJECTS = $(patsubst %.cpp, $(OBJ_DIR)/%.o, $(filter-out CropTest.cpp ShovelTest.cpp UserTest.cpp FlowerTest.cpp VegetableTest.cpp WaterCanTest.cpp EquipmentTest.cpp seasonalVegTest.cpp, $(SOURCES)))
 
 .PHONY: all clean
 
