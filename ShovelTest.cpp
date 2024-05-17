@@ -32,7 +32,6 @@ class ShovelTest {
     }
 
     Shovel brokenShovel;
-    brokenShovel.repair();
     for (int i = 0; i < 4; ++i) {
       brokenShovel.Use();
     }
