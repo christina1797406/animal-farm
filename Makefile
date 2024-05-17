@@ -18,16 +18,16 @@ all: $(BIN_DIR)/$(TARGET)
 # Linking target
 $(BIN_DIR)/$(TARGET): $(OBJECTS)
 	@mkdir -p $(BIN_DIR)
-	$(CXX) $(CXXFLAGS) $(LIBFLAGS) $^ -o $@
+	$(CXX) $(CXXFLAGS) $^ $(LIBFLAGS) -o $@
 
 # Compiling
 $(OBJ_DIR)/%.o: %.cpp
 	@mkdir -p $(OBJ_DIR)
-	$(CXX) $(CXXFLAGS) $(LIBFLAGS) -c $< -o $@
+	$(CXX) $(CXXFLAGS) -c $< -o $@
 
 # Clean up
 clean:
 	@rm -rf $(OBJ_DIR) $(BIN_DIR)
 
 run: all
-	./$(BIN_DIR)/$(Farm Game)
+	./$(BIN_DIR)/$(TARGET)
