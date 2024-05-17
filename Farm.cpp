@@ -31,10 +31,11 @@ int Farm::getNumCrops() const { return numCrops; }
 
 void Farm::show_gameStatus() const {
   // Print current status of the farm
+  std::cout << "User Name: " << user.getName() << std::endl;
+  std::cout << "User Age: " << user.getAge() << std::endl;
   std::cout << "Farm Name: " << farmName << std::endl;
   std::cout << "Your Networth: " << money << std::endl;
   std::cout << "Number of Crops: " << numCrops << std::endl;
-  // Print additional status information
 }
 
 void Farm::buyCrop() {
