@@ -1,13 +1,9 @@
 #ifndef USER_H
 #define USER_H
 #include <string>
-<<<<<<< HEAD
 #include "Flower.h"
 #include "Crop.h"
 
-=======
-#include "User.h"
->>>>>>> refs/remotes/origin/main
 #include <SFML/Graphics.hpp>
 
 class User {
