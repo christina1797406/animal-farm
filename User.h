@@ -1,6 +1,8 @@
 #ifndef USER_H
 #define USER_H
 #include <string>
+#include "Flower.h"
+#include "Crop.h"
 
 #include <SFML/Graphics.hpp>
 
@@ -40,7 +42,7 @@ class User {
   // Plant function
   void plant() {
     // code
-    flowers.push_back(new Flower("/*/"));     // LINE INCOMPLETE
+    // flowers.push_back(new Flower("/*/"));     // LINE INCOMPLETE
   }
 
   // more functions..
