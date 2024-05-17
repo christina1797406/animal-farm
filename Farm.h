@@ -18,13 +18,13 @@ class Farm {
   Crop** crops;
   Equipment** equipments;
   WaterCan waterCan;
-  Shovel shovel; // Add Shovel object to the farm
+  Shovel shovel;  // Add Shovel object to the farm
 
  public:
-  Farm(const std::string& farmName, int money, const User& user);
+  Farm(std::string farmName, int money, const User& user);
   ~Farm();
 
-  void set_farmName(const std::string& farmName);
+  void set_farmName(std::string farmName);
   std::string get_farmName() const;
 
   void setMoney(int money);
@@ -38,7 +38,7 @@ class Farm {
   void buyCrop();
   void sellCrop();
   void refillWaterCan();
-  void repairShovel(); // Method to repair the shovel
+  void repairShovel();  // Method to repair the shovel
 };
 
 #endif  // FARM_H
