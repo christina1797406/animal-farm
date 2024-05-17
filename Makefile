@@ -23,7 +23,7 @@ $(BIN_DIR)/$(TARGET): $(OBJECTS)
 # Compiling
 $(OBJ_DIR)/%.o: %.cpp
 	@mkdir -p $(OBJ_DIR)
-	$(CXX) $(CXXFLAGS) -c $< -o $@
+	$(CXX) $(CXXFLAGS) $(LIBFLAGS) -c $< -o $@
 
 # Clean up
 clean:
