@@ -19,10 +19,15 @@ LIBFLAGS = $(SFML_LIB) $(SFML_FLAGS)
 OBJ_DIR = obj
 BIN_DIR = bin
 TARGET = FarmSimulator
+SRC_DIRS := Classes
+SINGLE_FILES := Main/main-graphics.cpp
+
 
 # Source and object files
-SOURCES = $(wildcard *.cpp)
-OBJECTS = $(patsubst %.cpp, $(OBJ_DIR)/%.o, $(filter-out CropTest.cpp ShovelTest.cpp UserTest.cpp FlowerTest.cpp VegetableTest.cpp WaterCanTest.cpp EquipmentTest.cpp seasonalVegTest.cpp, $(SOURCES)))
+#SOURCES = $(wildcard *.cpp)
+SOURCES := $(foreach dir,$(SRC_DIRS),$(wildcard $(dir)/*.cpp)) $(SINGLE_FILES)
+#OBJECTS = $(patsubst %.cpp, $(OBJ_DIR)/%.o, $(filter-out CropTest.cpp ShovelTest.cpp UserTest.cpp FlowerTest.cpp VegetableTest.cpp WaterCanTest.cpp EquipmentTest.cpp seasonalVegTest.cpp, $(SOURCES)))
+OBJECTS := $(patsubst %.cpp, $(OBJ_DIR)/%.o, $(notdir $(SOURCES)))
 
 .PHONY: all clean
 
@@ -35,7 +40,11 @@ $(BIN_DIR)/$(TARGET): $(OBJECTS)
 	$(CXX) $(CXXFLAGS) $^ $(LIBFLAGS) -o $@
 
 # Compiling
-$(OBJ_DIR)/%.o: %.cpp
+$(OBJ_DIR)/%.o: Classes/%.cpp
+	@mkdir -p $(OBJ_DIR)
+	$(CXX) $(CXXFLAGS) -c $< -o $@
+
+$(OBJ_DIR)/%.o: Main/%.cpp
 	@mkdir -p $(OBJ_DIR)
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
