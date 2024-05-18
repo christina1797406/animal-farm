@@ -54,9 +54,6 @@ class User {
   
   sf::Texture texture;
   sf::Sprite sprite;
-
-  int x = 5;
-  int y = 5;
 };
 
 #endif

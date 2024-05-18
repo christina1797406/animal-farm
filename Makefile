@@ -1,10 +1,24 @@
+# Determine the OS
+OS := $(shell uname)
+
+# Conditional flags based on OS
+ifeq ($(OS), Darwin)
+    SFML_INCLUDE = -I/opt/homebrew/Cellar/sfml/2.6.1/include
+    SFML_LIB = -L/opt/homebrew/Cellar/sfml/2.6.1/lib
+else ifeq ($(OS), Linux)
+    SFML_INCLUDE = -I/usr/include/SFML
+    SFML_LIB = -L/usr/lib
+endif
+
+SFML_FLAGS = -lsfml-graphics -lsfml-window -lsfml-system
+
 # Define compilers and flags
 CXX = g++
-CXXFLAGS = -std=c++11 -Wall -Werror -Wextra -Iinclude
-LIBFLAGS = -Llib -lsfml-graphics -lsfml-window -lsfml-system # ADDING LIBRARY FLAGS FOR SFML
+CXXFLAGS = -std=c++11 -Wall -Werror -Wextra $(SFML_INCLUDE)
+LIBFLAGS = $(SFML_LIB) $(SFML_FLAGS)
 OBJ_DIR = obj
 BIN_DIR = bin
-TARGET = Farm Simulator
+TARGET = FarmSimulator
 
 # Source and object files
 SOURCES = $(wildcard *.cpp)
