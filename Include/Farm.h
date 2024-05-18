@@ -40,7 +40,7 @@ class Farm {
   void refillWaterCan();
   void repairShovel();  // Method to repair the shovel
 
-  sf::Sprite createBackground();
+  sf::Sprite* createBackground();
 };
 
 #endif  // FARM_H

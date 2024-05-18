@@ -39,7 +39,7 @@ int main()
     // Create window
     sf::RenderWindow window(sf::VideoMode(1920, 1080), "Farm Game");
 
-    sf::Sprite grassSprite = farm.createBackground();
+    sf::Sprite* grassSprite = farm.createBackground();
     
     // Create an array of textures for the character sprite
     sf::Texture** characterAnims = user.createAnimation();
@@ -141,7 +141,7 @@ int main()
 
         // Draw the window and sprites
         window.clear();
-        window.draw(grassSprite);
+        window.draw(*grassSprite);
         window.draw(characterSprite);
         window.draw(cellBorder);
         for (int i = 0; i < 10; i++) { window.draw(inventoryCells[i]); }

@@ -216,20 +216,20 @@ void Farm::repairShovel() {
   }
 }
 
-sf::Sprite Farm::createBackground() {
+sf::Sprite* Farm::createBackground() {
   // Create grass sprite
-  sf::Sprite grassSprite;
+  sf::Sprite* grassSprite = new sf::Sprite;
   // Create grass texture
-  sf::Texture grass;
+  sf::Texture* grass = new sf::Texture;
   {
       // Set grass texture
-      grass.loadFromFile("Sprites/Tilesets/Grass.png", sf::IntRect(48, 96, 16, 16));
-      grass.setRepeated(true);
+      grass->loadFromFile("Sprites/Tilesets/Grass.png", sf::IntRect(48, 96, 16, 16));
+      grass->setRepeated(true);
 
       // Set the grass sprite texture to the grass texture
-      grassSprite.setTexture(grass);
-      grassSprite.setScale(5, 5);
-      grassSprite.setTextureRect({ 0, 0, 1920, 1080 });
+      grassSprite->setTexture(*grass);
+      grassSprite->setScale(5, 5);
+      grassSprite->setTextureRect({ 0, 0, 1920, 1080 });
     }
 
     return grassSprite;
