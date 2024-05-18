@@ -8,10 +8,10 @@
 
 class User {
     private:
-        // Set charcter walk speed
-        float WALK_SPEED = 5;
-        // Set the framerate of the character's animations
-        int ANIM_FRAMERATE = 20;
+        // Set charcter walk speed (pixels per second, screen is 1920px by 1080px)
+        float WALK_SPEED = 500;
+        // Set the framerate of the character's animations (time between frames in seconds)
+        float ANIM_FRAMERATE = .2;
 
 
  public:
@@ -29,7 +29,7 @@ class User {
   std::string getName() const;
   int getAge() const;
   float getWalkSpeed() const;
-  int getAnimFramerate() const;
+  float getAnimFramerate() const;
 
   // Draw player
   void draw(sf::RenderWindow* window);

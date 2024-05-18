@@ -52,7 +52,7 @@ int main()
     
     // Add variables for keeping track of the animation
     int curAnimFrame = 2;
-    int skippedFrames = 0;
+    float skippedFrames = 0;
 
     // Add variable for selected cell in hotbar
     int curCell = 0;
@@ -61,9 +61,11 @@ int main()
     bool pressed = false;
 
     // While the window is open (user hasn't closed it)
+    sf::Clock clock;
     while (window.isOpen())
     {
-        
+        sf::Time elapsed = clock.restart();
+
         // Check for the closed event
         sf::Event event;
         while (window.pollEvent(event))
@@ -119,9 +121,9 @@ int main()
             direction = sf::Vector2f(0.f, 0.f);
         }
 
-        // Check if enough frames ahve elapsed to play the next frame of the animation
-        skippedFrames += 1;
-        if (skippedFrames % user.getAnimFramerate() == 0) { 
+        // Check if enough frames has elapsed to play the next frame of the animation
+        skippedFrames += elapsed.asSeconds();
+        if (skippedFrames > user.getAnimFramerate()) { 
             skippedFrames = 0;
             curAnimFrame += 1;
             if (curAnimFrame == 4) { curAnimFrame = 2; };
@@ -137,7 +139,7 @@ int main()
         characterSprite.setTexture(characterAnims[dir][curAnimFrame]);
 
         // Move the character in the direction multiplied by the walkSpeed
-        characterSprite.move(direction.x * user.getWalkSpeed(), direction.y * user.getWalkSpeed());
+        characterSprite.move(direction.x * user.getWalkSpeed() * elapsed.asSeconds(), direction.y * user.getWalkSpeed() * elapsed.asSeconds());
 
         // Draw the window and sprites
         window.clear();

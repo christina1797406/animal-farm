@@ -39,7 +39,7 @@ std::string User::getName() const { return name; }
 int User::getAge() const { return age; }
 
 float User::getWalkSpeed() const { return WALK_SPEED; }
-int User::getAnimFramerate() const { return ANIM_FRAMERATE; }
+float User::getAnimFramerate() const { return ANIM_FRAMERATE; }
 
 // Draw player
 void User::draw(sf::RenderWindow* window) {
