@@ -129,15 +129,15 @@ int main()
     // Create money text
     sf::Text text;
     text.setFont(font); // font is a sf::Font
-    text.setString("$999,999,999");
+    text.setString("$" + std::to_string(farm.getMoney()));
     text.setCharacterSize(80);
     text.setFillColor(sf::Color::White);
     text.setStyle(sf::Text::Bold);
 
-    text.setOutlineColor(sf::Color(0,0,0,200));
+    text.setOutlineColor(sf::Color(0,0,0,225));
     text.setOutlineThickness(5);
 
-    text.setPosition(30, 0);
+    text.setPosition(40, 0);
 
 
     // While the window is open (user hasn't closed it)
@@ -210,11 +210,11 @@ int main()
                 //std::cout << dirtSprites.size() << std::endl;
                 pressed2 = true;
 
+                sf::Vector2i localPosition = sf::Mouse::getPosition(window);
+                localPosition = sf::Vector2i(localPosition.x - localPosition.x % 80, localPosition.y - localPosition.y % 80);
+
                 if (user.inventory[curCell] != nullptr) {
                     //std::cout << user.inventory[curCell]->GetName() << std::endl;
-
-                    sf::Vector2i localPosition = sf::Mouse::getPosition(window);
-                    localPosition = sf::Vector2i(localPosition.x - localPosition.x % 80, localPosition.y - localPosition.y % 80);
 
                     if (user.inventory[curCell]->GetName() == "Shovel") {
                         // Dig a hole and "snap" it to the grid
@@ -224,10 +224,30 @@ int main()
                     } else if (user.inventory[curCell]->GetName() == "Seeds") {
                         for (int i = 0; i < (int)dirtSprites.size(); i++) { 
                             if (dirtSprites[i] != nullptr) {
-                                if (dirtSprites[i]->getPosition().x == localPosition.x && dirtSprites[i]->getPosition().y == localPosition.y) {
+                                if (dirtSprites[i]->getPosition().x == localPosition.x && dirtSprites[i]->getPosition().y == localPosition.y
+                                && farm.getMoney() >= 25) {
                                     // The player clicked on some dirt
                                     vegetableSprites.push_back(vegetable.plantVegetable(localPosition));
+
+                                    farm.setMoney(farm.getMoney() - 25);
+                                    text.setString("$" + std::to_string(farm.getMoney()));
                                 }
+                            }
+                        }
+                    }
+                } else {
+                    std::cout << "Vegetable selected\n";
+                    for (int i = 0; i < (int)vegetableSprites.size(); i++) { 
+                        if (vegetableSprites[i] != nullptr) {
+                            if (vegetableSprites[i]->getPosition().x == localPosition.x && vegetableSprites[i]->getPosition().y == localPosition.y) {
+                                std::cout << "Vegetable selected\n";
+                                // The player clicked on a vegetable
+
+                                farm.setMoney(farm.getMoney() + 50);
+                                text.setString("$" + std::to_string(farm.getMoney()));
+
+                                vegetableSprites[i] = nullptr;
+                                vegetableSprites.erase(vegetableSprites.begin() + i);
                             }
                         }
                     }
