@@ -2,21 +2,21 @@
 #include "../Include/GameEntity.h"
 #include "../Include/Crop.h"
 #include "../Include/Flower.h"
+
+#include "../Include/Equipment.h"
+#include "../Include/Shovel.h"
+#include "../Include/WaterCan.h"
 #include <iostream>
 
 // Default constructor
 User::User() {
-    name = "User";
-    age = 0;
+    Shovel* shovel = new Shovel;
+    WaterCan* wateringCan = new WaterCan;
 
-    if (!texture.loadFromFile("./sfml/user2.png")) {
-        std::cout << "Character file not found." << std::endl;
-        return;
-    }
+    inventory[0] = shovel;
+    inventory[1] = wateringCan;
 
-    sprite.setTexture(texture);
-    sprite.setPosition(50.0f, 50.0f);
-    sprite.setScale(0.3f, 0.3f);
+    User("User", 0);
 }
 // Constructor implementation
 User::User(std::string _name, int _age): name(_name), age(_age) {

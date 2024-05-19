@@ -9,3 +9,5 @@ void Equipment::set_no_of_equipment(int count) {
 }
 
 int Equipment::get_no_of_equipment() const { return no_of_equipment; }
+
+std::string Equipment::GetName() { return name; }

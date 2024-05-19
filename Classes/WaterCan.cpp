@@ -7,6 +7,8 @@ WaterCan::WaterCan() : waterLevel(0.0) {}
 
 WaterCan::WaterCan(double waterLevel) : waterLevel(waterLevel) {}
 
+std::string WaterCan::GetName() { return name; }
+
 void WaterCan::fillWater(double amount) {
   // Fill the water can with the specified amount of water
   waterLevel += amount;

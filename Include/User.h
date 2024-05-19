@@ -3,6 +3,7 @@
 #include <string>
 #include "Flower.h"
 #include "Crop.h"
+#include "Equipment.h"
 
 #include <SFML/Graphics.hpp>
 
@@ -17,6 +18,8 @@ class User {
  public:
   User();                           // constructor
   User(std::string name, int age);
+
+  Equipment** inventory = new Equipment*[10];
 
   std::vector<Flower*> flowers;
   int flower_size = 10;

@@ -9,11 +9,15 @@ class WaterCan : public Equipment {
   WaterCan();                   // Default constructor
   WaterCan(double waterLevel);  // Parameterized constructor
 
+  std::string name = "Watering Can";
+
   // Method to fill water in the can
   void fillWater(double amount);
 
   // Overridden method to use the water can
   void Use() override;
+
+  std::string GetName() override;
 
  //protected:
   double waterLevel;  // Water level in the can

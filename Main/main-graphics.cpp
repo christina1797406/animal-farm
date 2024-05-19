@@ -11,6 +11,7 @@
 
 #include "../Include/Farm.h"
 #include "../Include/User.h"
+#include "../Include/Shovel.h"
 
 int main()
 {
@@ -44,6 +45,9 @@ int main()
     // Create an array of textures for the character sprite
     sf::Texture** characterAnims = user.createAnimation();
 
+    // Create dirt sprite
+    Shovel shovel;
+
     // Create the character srite
     sf::Sprite characterSprite;
     characterSprite.setScale(10, 10);
@@ -59,6 +63,57 @@ int main()
 
     // For the UI
     bool pressed = false;
+    // For the inventory
+    bool pressed2 = false;
+
+    // Sprites for when the palyer digs
+    std::vector<sf::Sprite*> dirtSprites;
+
+    // Inventory cells and sprites
+    sf::RectangleShape* inventoryCells[10];
+    sf::Sprite* inventoryIcons[10];
+
+    // Create inventory
+    for (int i = 0; i < 10; i++) {
+        sf::RectangleShape* cell = new sf::RectangleShape;
+        cell->setSize(sf::Vector2f(100.f, 100.f));
+        cell->setPosition(sf::Vector2f(((1920 * 0.5) - 600) + (120 * i), 960));
+        cell->setFillColor(sf::Color::White);
+
+        inventoryCells[i] = cell;
+
+
+
+        //////// Adding sprites to the inventory /////////
+        // Create icon sprite
+        sf::Sprite* iconSprite = new sf::Sprite;
+        // Create icon texture
+        sf::Texture* iconTexture = new sf::Texture;
+
+        if (user.inventory[i] != nullptr) {
+            if (user.inventory[i]->GetName() == "Shovel") {
+                iconTexture->loadFromFile("Sprites/Characters/Tools.png", sf::IntRect(0, 64, 16, 16));
+            } else if (user.inventory[i]->GetName() == "Watering Can") {
+                iconTexture->loadFromFile("Sprites/Characters/Tools.png", sf::IntRect(0, 0, 16, 16));
+            }
+        }
+
+        // Set the sprite texture to the texture
+        iconSprite->setTexture(*iconTexture);
+        iconSprite->setScale(5, 5);
+        iconSprite->setPosition(sf::Vector2f(((1920 * 0.5) - 600) + (120 * i), 960));
+
+        inventoryIcons[i] = iconSprite;
+    }
+
+
+
+    // Create border for selected cell
+    sf::RectangleShape cellBorder;
+    cellBorder.setSize(sf::Vector2f(110.f, 110.f));
+    cellBorder.setFillColor(sf::Color::Black);
+
+
 
     // While the window is open (user hasn't closed it)
     sf::Clock clock;
@@ -74,24 +129,6 @@ int main()
                 // Clsoe the window
                 window.close();
         }
-
-        sf::RectangleShape inventoryCells[10];
-
-        // Create inventory
-        for (int i = 0; i < 10; i++) {
-            sf::RectangleShape cell;
-            cell.setSize(sf::Vector2f(100.f, 100.f));
-            cell.setPosition(sf::Vector2f(((1920 * 0.5) - 600) + (120 * i), 960));
-            cell.setFillColor(sf::Color::White);
-
-            inventoryCells[i] = cell;
-        }
-
-        // Create border for selected cell
-        sf::RectangleShape cellBorder;
-        cellBorder.setSize(sf::Vector2f(110.f, 110.f));
-        cellBorder.setPosition(sf::Vector2f((1920 * 0.5) - 605 + (120 * curCell), 955));
-        cellBorder.setFillColor(sf::Color::Black);
 
         // Inventory controls
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q) && pressed == false) { curCell -= 1; pressed = true; }
@@ -141,12 +178,46 @@ int main()
         // Move the character in the direction multiplied by the walkSpeed
         characterSprite.move(direction.x * user.getWalkSpeed() * elapsed.asSeconds(), direction.y * user.getWalkSpeed() * elapsed.asSeconds());
 
+        // Mouse controls
+        if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
+        {
+            if (pressed2 == false) {
+                //std::cout << dirtSprites.size() << std::endl;
+                pressed2 = true;
+
+                if (user.inventory[curCell] != nullptr) {
+                    //std::cout << user.inventory[curCell]->GetName() << std::endl;
+
+                    if (user.inventory[curCell]->GetName() == "Shovel") {
+                        sf::Vector2i localPosition = sf::Mouse::getPosition(window);
+
+                        //std::cout << localPosition.x << localPosition.y << std::endl;
+
+                        // Dig a hole and "snap" it to the grid
+                        dirtSprites.push_back(shovel.digHole(sf::Vector2i(
+                                localPosition.x - localPosition.x % 80, 
+                                localPosition.y - localPosition.y % 80
+                            )));
+                    } else if (user.inventory[curCell]->GetName() == "Watering Can") {
+                        std::cout << "Watering Can selected!\n";
+                    }
+                }
+            }
+        } else {
+            pressed2 = false;
+        }
+
+        // Set cell border to the currently selected cell
+        cellBorder.setPosition(sf::Vector2f((1920 * 0.5) - 605 + (120 * curCell), 955));
+
         // Draw the window and sprites
         window.clear();
         window.draw(*grassSprite);
+        for (int i = 0; i < (int)dirtSprites.size(); i++) { window.draw(*dirtSprites[i]); }
         window.draw(characterSprite);
         window.draw(cellBorder);
-        for (int i = 0; i < 10; i++) { window.draw(inventoryCells[i]); }
+        for (int i = 0; i < 10; i++) { window.draw(*inventoryCells[i]); }
+        for (int i = 0; i < 10; i++) { window.draw(*inventoryIcons[i]); }
         window.display();
     }
 
