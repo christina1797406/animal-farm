@@ -2,6 +2,8 @@
 #define VEGETABLE_H
 #include <string>
 
+#include <SFML/Graphics.hpp>
+
 #include "Crop.h"
 
 class Vegetable : public Crop {
@@ -20,6 +22,8 @@ class Vegetable : public Crop {
 
   // Override virtual function from Crop class
   bool get_isHarvested() override;
+
+  sf::Sprite* plantVegetable(sf::Vector2i pos);
 
  private:
   std::string type;   // Type of Vegetable

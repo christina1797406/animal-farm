@@ -6,15 +6,18 @@
 #include "../Include/Equipment.h"
 #include "../Include/Shovel.h"
 #include "../Include/WaterCan.h"
+#include "../Include/CropSeeds.h"
 #include <iostream>
 
 // Default constructor
 User::User() {
     Shovel* shovel = new Shovel;
     WaterCan* wateringCan = new WaterCan;
+    CropSeeds* seeds = new CropSeeds;
 
     inventory[0] = shovel;
     inventory[1] = wateringCan;
+    inventory[2] = seeds;
 
     User("User", 0);
 }

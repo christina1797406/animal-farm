@@ -33,3 +33,22 @@ bool Vegetable::get_isHarvested() {
     return false;  // Vegetable is not harvested
   }
 }
+
+sf::Sprite* Vegetable::plantVegetable(sf::Vector2i pos) {
+  // Create grass sprite
+  sf::Sprite* vegetableSprite = new sf::Sprite;
+  // Create grass texture
+  sf::Texture* vegetable = new sf::Texture;
+  {
+      // Set dirt texture
+      vegetable->loadFromFile("Sprites/Objects/Basic_Plants.png", sf::IntRect(64, 0, 16, 16));
+
+      // Set the dirt sprite texture to the dirt texture
+      vegetableSprite->setTexture(*vegetable);
+      vegetableSprite->setScale(5, 5);
+      //dirtSprite->setTextureRect({ 0, 0, 1920, 1080 });
+      vegetableSprite->setPosition(sf::Vector2f(pos));
+    }
+
+    return vegetableSprite;
+}

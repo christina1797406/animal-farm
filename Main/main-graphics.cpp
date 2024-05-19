@@ -12,6 +12,7 @@
 #include "../Include/Farm.h"
 #include "../Include/User.h"
 #include "../Include/Shovel.h"
+#include "../Include/Vegetable.h"
 
 int main()
 {
@@ -48,6 +49,9 @@ int main()
     // Create dirt sprite
     Shovel shovel;
 
+    // Plant
+    Vegetable vegetable;
+
     // Create the character srite
     sf::Sprite characterSprite;
     characterSprite.setScale(10, 10);
@@ -68,6 +72,7 @@ int main()
 
     // Sprites for when the palyer digs
     std::vector<sf::Sprite*> dirtSprites;
+    std::vector<sf::Sprite*> vegetableSprites;
 
     // Inventory cells and sprites
     sf::RectangleShape* inventoryCells[10];
@@ -95,6 +100,8 @@ int main()
                 iconTexture->loadFromFile("Sprites/Characters/Tools.png", sf::IntRect(0, 64, 16, 16));
             } else if (user.inventory[i]->GetName() == "Watering Can") {
                 iconTexture->loadFromFile("Sprites/Characters/Tools.png", sf::IntRect(0, 0, 16, 16));
+            } else if (user.inventory[i]->GetName() == "Seeds") {
+                iconTexture->loadFromFile("Sprites/Objects/Basic_Plants.png", sf::IntRect(0, 0, 16, 16));
             }
         }
 
@@ -113,6 +120,24 @@ int main()
     cellBorder.setSize(sf::Vector2f(110.f, 110.f));
     cellBorder.setFillColor(sf::Color::Black);
 
+
+
+    // Create font
+    sf::Font font;
+    font.loadFromFile("Fonts/upheavtt.ttf");
+
+    // Create money text
+    sf::Text text;
+    text.setFont(font); // font is a sf::Font
+    text.setString("$999,999,999");
+    text.setCharacterSize(80);
+    text.setFillColor(sf::Color::White);
+    text.setStyle(sf::Text::Bold);
+
+    text.setOutlineColor(sf::Color(0,0,0,200));
+    text.setOutlineThickness(5);
+
+    text.setPosition(30, 0);
 
 
     // While the window is open (user hasn't closed it)
@@ -188,18 +213,23 @@ int main()
                 if (user.inventory[curCell] != nullptr) {
                     //std::cout << user.inventory[curCell]->GetName() << std::endl;
 
+                    sf::Vector2i localPosition = sf::Mouse::getPosition(window);
+                    localPosition = sf::Vector2i(localPosition.x - localPosition.x % 80, localPosition.y - localPosition.y % 80);
+
                     if (user.inventory[curCell]->GetName() == "Shovel") {
-                        sf::Vector2i localPosition = sf::Mouse::getPosition(window);
-
-                        //std::cout << localPosition.x << localPosition.y << std::endl;
-
                         // Dig a hole and "snap" it to the grid
-                        dirtSprites.push_back(shovel.digHole(sf::Vector2i(
-                                localPosition.x - localPosition.x % 80, 
-                                localPosition.y - localPosition.y % 80
-                            )));
+                        dirtSprites.push_back(shovel.digHole(localPosition));
                     } else if (user.inventory[curCell]->GetName() == "Watering Can") {
                         std::cout << "Watering Can selected!\n";
+                    } else if (user.inventory[curCell]->GetName() == "Seeds") {
+                        for (int i = 0; i < (int)dirtSprites.size(); i++) { 
+                            if (dirtSprites[i] != nullptr) {
+                                if (dirtSprites[i]->getPosition().x == localPosition.x && dirtSprites[i]->getPosition().y == localPosition.y) {
+                                    // The player clicked on some dirt
+                                    vegetableSprites.push_back(vegetable.plantVegetable(localPosition));
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -214,10 +244,14 @@ int main()
         window.clear();
         window.draw(*grassSprite);
         for (int i = 0; i < (int)dirtSprites.size(); i++) { window.draw(*dirtSprites[i]); }
+        for (int i = 0; i < (int)vegetableSprites.size(); i++) { window.draw(*vegetableSprites[i]); }
         window.draw(characterSprite);
         window.draw(cellBorder);
         for (int i = 0; i < 10; i++) { window.draw(*inventoryCells[i]); }
         for (int i = 0; i < 10; i++) { window.draw(*inventoryIcons[i]); }
+
+
+        window.draw(text);
         window.display();
     }
 
