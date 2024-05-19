@@ -2,24 +2,28 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "build",
+            "label": "build-game",
             "type": "shell",
-            "command": "g++",
-            "args": [
-                "-std=c++17",
-                "-g",
-                "${workspaceFolder}/*.cpp",  // This includes all .cpp files in the workspace folder
-                "-o",
-                "${workspaceFolder}/sfml-app",
-                "-lsfml-graphics",
-                "-lsfml-window",
-                "-lsfml-system"
-            ],
+            "command": "make",
+            "args": ["all"],
             "group": {
                 "kind": "build",
                 "isDefault": true
             },
-            "problemMatcher": ["$gcc"]
+            "problemMatcher": ["$gcc"],
+            "detail": "Build the main game"
+        },
+        {
+            "label": "build-tests",
+            "type": "shell",
+            "command": "make",
+            "args": ["test"],
+            "group": {
+                "kind": "build",
+                "isDefault": false
+            },
+            "problemMatcher": ["$gcc"],
+            "detail": "Build the tests"
         }
     ]
 }
