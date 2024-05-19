@@ -22,14 +22,13 @@ User::User() {
 }
 // Constructor implementation
 User::User(std::string _name, int _age): name(_name), age(_age) {
+    Shovel* shovel = new Shovel;
+    WaterCan* wateringCan = new WaterCan;
+    CropSeeds* seeds = new CropSeeds;
 
-    if (!texture.loadFromFile("./sfml/user2.png")) {
-        std::cout << "Character file not found." << std::endl;
-    }
-
-    sprite.setTexture(texture);
-    sprite.setPosition(50.0f, 50.0f);
-    sprite.setScale(0.3f, 0.3f);
+    inventory[0] = shovel;
+    inventory[1] = wateringCan;
+    inventory[2] = seeds;
 }
 
 // Setter method

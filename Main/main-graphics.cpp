@@ -16,8 +16,20 @@
 
 int main()
 {
+    std::cout << "Welcome to the Farming Simulator!" << std::endl; 
+
+    // Ask user for name
+    std::string userName;
+    std::cout << "Enter your name: ";
+    std::cin >> userName;
+
+        // Ask user age
+    int userAge;
+    std::cout << "Enter your age: ";
+    std::cin >> userAge;
+
     // Create a User object
-    User user;
+    User user(userName, userAge);
 
     // Ask user for farm name
     std::string farmName;
