@@ -8,11 +8,11 @@
 #include<iostream>
 #include<cmath>
 
-
 #include "../Include/Farm.h"
 #include "../Include/User.h"
 #include "../Include/Shovel.h"
 #include "../Include/Vegetable.h"
+#include "../Include/Flower.h"
 
 int main()
 {
@@ -64,6 +64,9 @@ int main()
     // Plant
     Vegetable vegetable;
 
+    // Flower
+    Flower flower;
+
     // Create the character srite
     sf::Sprite characterSprite;
     characterSprite.setScale(10, 10);
@@ -85,6 +88,11 @@ int main()
     // Sprites for when the palyer digs
     std::vector<sf::Sprite*> dirtSprites;
     std::vector<sf::Sprite*> vegetableSprites;
+    std::vector<sf::Sprite*> flowerSprites;
+
+    // Load a texture for the flowers
+    sf::Texture flowerTexture;
+    flowerTexture.loadFromFile("Sprites/Objects/Basic_Grass_Biom_things.png", sf::IntRect(112, 34, 16, 16));
 
     // Inventory cells and sprites
     sf::RectangleShape* inventoryCells[10];
@@ -272,16 +280,39 @@ int main()
         // Set cell border to the currently selected cell
         cellBorder.setPosition(sf::Vector2f((1920 * 0.5) - 605 + (120 * curCell), 955));
 
+        // Plant controls
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::P) && pressed == false && farm.getMoney() > 0) { 
+            //flowerSprites.push_back(flower.plantFlower(characterSprite.getPosition(), farm.getMoney()));
+            //flower.plantFlower(characterSprite.getPosition(), farm.getMoney());
+        
+            std::cout << "You've planted a flower\n";
+
+            sf::Sprite* flower = new sf::Sprite();
+            flower->setTexture(flowerTexture);
+            flower->setScale(5, 5);
+            flower->setPosition(characterSprite.getPosition());
+            flowerSprites.push_back(flower);
+
+            farm.setMoney(farm.getMoney() - 5);
+            text.setString("$" + std::to_string(farm.getMoney()));
+
+            pressed = true;
+        }   
+        else if (farm.getMoney() <= 0) {
+            std::cout << "Oh no, you're out of money. \nUnfortunately you cannot plant the flower.\n";
+            pressed = false;
+        }
+
         // Draw the window and sprites
         window.clear();
         window.draw(*grassSprite);
         for (int i = 0; i < (int)dirtSprites.size(); i++) { window.draw(*dirtSprites[i]); }
         for (int i = 0; i < (int)vegetableSprites.size(); i++) { window.draw(*vegetableSprites[i]); }
+        for (int i = 0; i < (int)flowerSprites.size(); i++) { window.draw(*flowerSprites[i]); }
         window.draw(characterSprite);
         window.draw(cellBorder);
         for (int i = 0; i < 10; i++) { window.draw(*inventoryCells[i]); }
         for (int i = 0; i < 10; i++) { window.draw(*inventoryIcons[i]); }
-
 
         window.draw(text);
         window.display();

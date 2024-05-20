@@ -25,3 +25,14 @@ bool Flower::get_isHarvested() {
     return false;  // Flower is not yet harvested
   }
 }
+
+sf::Sprite* Flower::plantFlower(sf::Vector2f position, int money) {
+    sf::Sprite* flowerSprite = new sf::Sprite();
+    flowerSprite->setPosition(position.x, position.y);
+    
+    // Deduct 5 coins for planting a flower
+    if (money >= 5) {
+        money -= 5;
+    } 
+    return flowerSprite;
+}
