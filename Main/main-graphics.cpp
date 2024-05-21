@@ -23,7 +23,7 @@ int main()
     std::cout << "Enter your name: ";
     std::cin >> userName;
 
-        // Ask user age
+    // Ask user age
     int userAge;
     std::cout << "Enter your age: ";
     std::cin >> userAge;
@@ -53,6 +53,7 @@ int main()
     // Create window
     sf::RenderWindow window(sf::VideoMode(1920, 1080), "Farm Game");
 
+    // Create brackground sprite
     sf::Sprite* grassSprite = farm.createBackground();
     
     // Create an array of textures for the character sprite
@@ -60,9 +61,6 @@ int main()
 
     // Create dirt sprite
     Shovel shovel;
-
-    // Plant
-    Vegetable vegetable;
 
     // Flower
     Flower flower;
@@ -82,15 +80,13 @@ int main()
 
     // For the UI
     bool pressed = false;
+    
     // For the inventory
     bool pressed2 = false;
 
-    // To track when 'P' key is pressed
-    bool pPressed = false;
-
     // Sprites for when the palyer digs
     std::vector<sf::Sprite*> dirtSprites;
-    std::vector<sf::Sprite*> vegetableSprites;
+    std::vector<Vegetable*> vegetables;
     std::vector<sf::Sprite*> flowerSprites;
 
     // Load a texture for the flowers
@@ -125,8 +121,10 @@ int main()
                 iconTexture->loadFromFile("Sprites/Characters/Tools.png", sf::IntRect(0, 0, 16, 16));
             } else if (user.inventory[i]->GetName() == "Seeds") {
                 iconTexture->loadFromFile("Sprites/Objects/Basic_Plants.png", sf::IntRect(0, 0, 16, 16));
+            } else if (user.inventory[i]->GetName() == "Flower Seeds") {
+                iconTexture->loadFromFile("Sprites/Objects/Basic_Grass_Biom_things.png", sf::IntRect(112, 34, 16, 16));
             }
-        }
+         }
 
         // Set the sprite texture to the texture
         iconSprite->setTexture(*iconTexture);
@@ -250,27 +248,53 @@ int main()
                                 if (dirtSprites[i]->getPosition().x == localPosition.x && dirtSprites[i]->getPosition().y == localPosition.y
                                 && farm.getMoney() >= 25) {
                                     // The player clicked on some dirt
-                                    vegetableSprites.push_back(vegetable.plantVegetable(localPosition));
+
+                                    Vegetable* vegetable = new Vegetable;
+                                    vegetable->plantVegetable(localPosition);
+                                    vegetable->setDaysToHarvest(10);
+                                    vegetable->set_growthRate(2);
+                                    vegetables.push_back(vegetable);
 
                                     farm.setMoney(farm.getMoney() - 25);
                                     text.setString("$" + std::to_string(farm.getMoney()));
                                 }
                             }
                         }
+                    } else if (user.inventory[curCell]->GetName() == "Flower Seeds") {
+                        if (farm.getMoney() > 0) {
+
+                            sf::Sprite* flower = new sf::Sprite();
+                            flower->setTexture(flowerTexture);
+                            flower->setScale(5, 5);
+                            flower->setPosition(sf::Vector2f(localPosition));
+                            flowerSprites.push_back(flower);
+
+                            farm.setMoney(farm.getMoney() - 5);
+                            text.setString("$" + std::to_string(farm.getMoney()));
+
+                            std::cout << "You've planted a flower\n";
+                        }
+                        else {
+                            std::cout << "Oh no, you're out of money. \nUnfortunately you cannot plant the flower.\n";
+                        }
                     }
                 } else {
                     std::cout << "Vegetable selected\n";
-                    for (int i = 0; i < (int)vegetableSprites.size(); i++) { 
-                        if (vegetableSprites[i] != nullptr) {
-                            if (vegetableSprites[i]->getPosition().x == localPosition.x && vegetableSprites[i]->getPosition().y == localPosition.y) {
+                    for (int i = 0; i < (int)vegetables.size(); i++) { 
+                        if (vegetables[i] != nullptr) {
+                            if (vegetables[i]->vegSprite->getPosition().x == localPosition.x && vegetables[i]->vegSprite->getPosition().y == localPosition.y) {
                                 std::cout << "Vegetable selected\n";
                                 // The player clicked on a vegetable
 
-                                farm.setMoney(farm.getMoney() + 50);
-                                text.setString("$" + std::to_string(farm.getMoney()));
+                                if (vegetables[i]->getDaysToHarvest() <= 0) {
+                                    farm.setMoney(farm.getMoney() + 50);
+                                    text.setString("$" + std::to_string(farm.getMoney()));
 
-                                vegetableSprites[i] = nullptr;
-                                vegetableSprites.erase(vegetableSprites.begin() + i);
+                                    vegetables[i] = nullptr;
+                                    vegetables.erase(vegetables.begin() + i);
+                                } else {
+                                    std::cout << vegetables[i]->getDaysToHarvest();
+                                }
                             }
                         }
                     }
@@ -280,41 +304,22 @@ int main()
             pressed2 = false;
         }
 
+        // Grow vegetables
+        for (int i = 0; i < (int)vegetables.size(); i++) { 
+            if (vegetables[i] != nullptr) {
+                vegetables[i]->setDaysToHarvest(vegetables[i]->getDaysToHarvest() - (elapsed.asSeconds() * vegetables[i]->get_growthRate()));
+                if (vegetables[i]->getDaysToHarvest() < 0) { vegetables[i]->setDaysToHarvest(0); }
+            }
+        }
+
         // Set cell border to the currently selected cell
         cellBorder.setPosition(sf::Vector2f((1920 * 0.5) - 605 + (120 * curCell), 955));
-
-        // Plant controls
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::P) && !pPressed) { 
-            //flowerSprites.push_back(flower.plantFlower(characterSprite.getPosition(), farm.getMoney()));
-            //flower.plantFlower(characterSprite.getPosition(), farm.getMoney());
-            if (farm.getMoney() > 0) {
-                sf::Sprite* flower = new sf::Sprite();
-                flower->setTexture(flowerTexture);
-                flower->setScale(5, 5);
-                flower->setPosition(characterSprite.getPosition());
-                flowerSprites.push_back(flower);
-
-                farm.setMoney(farm.getMoney() - 5);
-                text.setString("$" + std::to_string(farm.getMoney()));
-
-                std::cout << "You've planted a flower\n";
-            }
-            else {
-                std::cout << "Oh no, you're out of money. \nUnfortunately you cannot plant the flower.\n";
-                }
-            pPressed = true;
-        }
-
-        // Reset pPressed
-        if (!sf::Keyboard::isKeyPressed(sf::Keyboard::P)) {
-        pPressed = false;
-        }
 
         // Draw the window and sprites
         window.clear();
         window.draw(*grassSprite);
         for (int i = 0; i < (int)dirtSprites.size(); i++) { window.draw(*dirtSprites[i]); }
-        for (int i = 0; i < (int)vegetableSprites.size(); i++) { window.draw(*vegetableSprites[i]); }
+        for (int i = 0; i < (int)vegetables.size(); i++) { window.draw(*vegetables[i]->vegSprite); }
         for (int i = 0; i < (int)flowerSprites.size(); i++) { window.draw(*flowerSprites[i]); }
         window.draw(characterSprite);
         window.draw(cellBorder);

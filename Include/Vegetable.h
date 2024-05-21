@@ -9,25 +9,31 @@
 class Vegetable : public Crop {
  public:
   Vegetable();  // Constructor
-  Vegetable(std::string name, int growthRate, int waterNeeded,
-            double harvestYield, std::string type, int daysToHarvest);
+  Vegetable(std::string name, float growthRate, int waterNeeded,
+            double harvestYield, std::string type, float daysToHarvest);
 
   // Setter methods for specific attributes
   void setType(std::string type);
-  void setDaysToHarvest(int daysToHarvest);
+  void setDaysToHarvest(float daysToHarvest);
 
   // Getter methods for specific attributes
   std::string getType() const;
-  int getDaysToHarvest() const;
+  float getDaysToHarvest() const;
 
   // Override virtual function from Crop class
   bool get_isHarvested() override;
 
-  sf::Sprite* plantVegetable(sf::Vector2i pos);
+  void plantVegetable(sf::Vector2i pos);
+
+  ~Vegetable() {
+    delete(vegSprite);
+  }
+
+  sf::Sprite* vegSprite;
 
  private:
   std::string type;   // Type of Vegetable
-  int daysToHarvest;  // Number of days to harvest
+  float daysToHarvest;  // Number of days to harvest
 };
 
 #endif

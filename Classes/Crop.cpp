@@ -16,9 +16,9 @@ void Crop::setName(std::string name) { this->name = name; }
 // Getter method
 std::string Crop::getName() const { return name; }
 
-void Crop::set_growthRate(int growthRate) { this->growthRate = growthRate; }
+void Crop::set_growthRate(float growthRate) { this->growthRate = growthRate; }
 
-int Crop::get_growthRate() const { return growthRate; }
+float Crop::get_growthRate() const { return growthRate; }
 
 void Crop::set_waterNeeded(int waterNeeded) { this->waterNeeded = waterNeeded; }
 

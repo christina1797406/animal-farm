@@ -2,8 +2,8 @@
 
 Vegetable::Vegetable() : Crop(), type(""), daysToHarvest(0) {}
 
-Vegetable::Vegetable(std::string name, int growthRate, int waterNeeded,
-                     double harvestYield, std::string type, int daysToHarvest)
+Vegetable::Vegetable(std::string name, float growthRate, int waterNeeded,
+                     double harvestYield, std::string type, float daysToHarvest)
     : Crop(name, growthRate, waterNeeded, harvestYield),
       type(type),
       daysToHarvest(daysToHarvest) {
@@ -12,13 +12,13 @@ Vegetable::Vegetable(std::string name, int growthRate, int waterNeeded,
 // Setter methods
 void Vegetable::setType(std::string type) { this->type = type; }
 
-void Vegetable::setDaysToHarvest(int daysToHarvest) {
+void Vegetable::setDaysToHarvest(float daysToHarvest) {
   this->daysToHarvest = daysToHarvest;
 }
 // Getter methods
 std::string Vegetable::getType() const { return type; }
 
-int Vegetable::getDaysToHarvest() const { return daysToHarvest; }
+float Vegetable::getDaysToHarvest() const { return daysToHarvest; }
 
 // Implementation of overriden virtual function from Crop class
 bool Vegetable::get_isHarvested() {
@@ -34,7 +34,7 @@ bool Vegetable::get_isHarvested() {
   }
 }
 
-sf::Sprite* Vegetable::plantVegetable(sf::Vector2i pos) {
+void Vegetable::plantVegetable(sf::Vector2i pos) {
   // Create grass sprite
   sf::Sprite* vegetableSprite = new sf::Sprite;
   // Create grass texture
@@ -48,7 +48,7 @@ sf::Sprite* Vegetable::plantVegetable(sf::Vector2i pos) {
       vegetableSprite->setScale(5, 5);
       //dirtSprite->setTextureRect({ 0, 0, 1920, 1080 });
       vegetableSprite->setPosition(sf::Vector2f(pos));
-    }
 
-    return vegetableSprite;
+      vegSprite = vegetableSprite;
+    }
 }

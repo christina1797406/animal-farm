@@ -6,6 +6,7 @@
 #include "../Include/Shovel.h"
 #include "../Include/WaterCan.h"
 #include "../Include/CropSeeds.h"
+#include "../Include/FlowerSeeds.h"
 #include <iostream>
 
 // Default constructor
@@ -25,10 +26,13 @@ User::User(std::string _name, int _age): name(_name), age(_age) {
     Shovel* shovel = new Shovel;
     WaterCan* wateringCan = new WaterCan;
     CropSeeds* seeds = new CropSeeds;
+    FlowerSeeds* flowerSeeds = new FlowerSeeds;
 
+    // Set items in inventory
     inventory[0] = shovel;
     inventory[1] = wateringCan;
     inventory[2] = seeds;
+    inventory[3] = flowerSeeds;
 }
 
 // Setter method

@@ -9,8 +9,8 @@ class Crop {
 
   void setName(std::string name);  // setter method
   std::string getName() const;     // getter method
-  void set_growthRate(int growthRate);
-  int get_growthRate() const;
+  void set_growthRate(float growthRate);
+  float get_growthRate() const;
   void set_waterNeeded(int waterNeeded);
   int get_waterNeeded() const;
   void set_harvestYield(double harvestYield);
@@ -20,7 +20,7 @@ class Crop {
 
  protected:
   std::string name;     // name of the crop
-  int growthRate;       // growth rate of the crop
+  float growthRate;       // growth rate of the crop
   int waterNeeded;      // amount of water needed by crop
   double harvestYield;  // the harvest yield of the crop
 };
