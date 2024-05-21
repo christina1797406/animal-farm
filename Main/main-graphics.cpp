@@ -85,6 +85,9 @@ int main()
     // For the inventory
     bool pressed2 = false;
 
+    // To track when 'P' key is pressed
+    bool pPressed = false;
+
     // Sprites for when the palyer digs
     std::vector<sf::Sprite*> dirtSprites;
     std::vector<sf::Sprite*> vegetableSprites;
@@ -281,26 +284,30 @@ int main()
         cellBorder.setPosition(sf::Vector2f((1920 * 0.5) - 605 + (120 * curCell), 955));
 
         // Plant controls
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::P) && pressed == false && farm.getMoney() > 0) { 
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::P) && !pPressed) { 
             //flowerSprites.push_back(flower.plantFlower(characterSprite.getPosition(), farm.getMoney()));
             //flower.plantFlower(characterSprite.getPosition(), farm.getMoney());
-        
-            std::cout << "You've planted a flower\n";
+            if (farm.getMoney() > 0) {
+                sf::Sprite* flower = new sf::Sprite();
+                flower->setTexture(flowerTexture);
+                flower->setScale(5, 5);
+                flower->setPosition(characterSprite.getPosition());
+                flowerSprites.push_back(flower);
 
-            sf::Sprite* flower = new sf::Sprite();
-            flower->setTexture(flowerTexture);
-            flower->setScale(5, 5);
-            flower->setPosition(characterSprite.getPosition());
-            flowerSprites.push_back(flower);
+                farm.setMoney(farm.getMoney() - 5);
+                text.setString("$" + std::to_string(farm.getMoney()));
 
-            farm.setMoney(farm.getMoney() - 5);
-            text.setString("$" + std::to_string(farm.getMoney()));
+                std::cout << "You've planted a flower\n";
+            }
+            else {
+                std::cout << "Oh no, you're out of money. \nUnfortunately you cannot plant the flower.\n";
+                }
+            pPressed = true;
+        }
 
-            pressed = true;
-        }   
-        else if (farm.getMoney() <= 0) {
-            std::cout << "Oh no, you're out of money. \nUnfortunately you cannot plant the flower.\n";
-            pressed = false;
+        // Reset pPressed
+        if (!sf::Keyboard::isKeyPressed(sf::Keyboard::P)) {
+        pPressed = false;
         }
 
         // Draw the window and sprites
@@ -317,6 +324,5 @@ int main()
         window.draw(text);
         window.display();
     }
-
     return 0;
 }
