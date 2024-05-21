@@ -1,4 +1,5 @@
 // Graphics
+
 // To compile on Linux:
     // g++ -c graphics/main.cpp
     // g++ main.o -o sfml-app -lsfml-graphics -lsfml-window -lsfml-system
@@ -16,6 +17,35 @@
 
 int main()
 {
+    ////////// GLOBAL VARIABLES //////////
+
+    // Add variables for keeping track of the animation
+    int walkAnimFrame = 2;
+    float walkAnimSkippedFrames = 0;
+
+    // Add variable for selected cell in the inventory
+    int curSelectedInvCell = 0;
+
+    // Tracking pressed for the UI and placement system
+    bool invNavigationButtonPressed = false;
+    bool placementPressed = false;
+    bool fastForwardPressed = false;
+
+    // Time variables
+    float time = 0;
+
+    int months = 0;
+    int days = 0;
+    int hours = 0;
+    int minutes = 0;
+    int seconds = 0;
+    
+    int fastForwardTime = 1;
+
+    std::string season = "Spring";
+
+    ////////// CREATING OBJECTS AND TERMINAL INSTRUCTIONS //////////
+
     std::cout << "Welcome to the Farming Simulator!" << std::endl; 
 
     // Ask user for name
@@ -50,6 +80,14 @@ int main()
             "Farming!"
         << std::endl;
 
+    // Create dirt object
+    Shovel shovel;
+
+    // Create flower object
+    Flower flower;
+
+    ////////// CREATING WINDOW AND CHARACTER //////////
+
     // Create window
     sf::RenderWindow window(sf::VideoMode(1920, 1080), "Farm Game");
 
@@ -59,39 +97,23 @@ int main()
     // Create an array of textures for the character sprite
     sf::Texture** characterAnims = user.createAnimation();
 
-    // Create dirt sprite
-    Shovel shovel;
-
-    // Flower
-    Flower flower;
-
     // Create the character srite
     sf::Sprite characterSprite;
     characterSprite.setScale(10, 10);
     // Set the character sprite's texture the the first frame of the first animation (standing idle)
     characterSprite.setTexture(characterAnims[0][0]);
     
-    // Add variables for keeping track of the animation
-    int curAnimFrame = 2;
-    float skippedFrames = 0;
+    ////////// VECTORS FOR PLACED OBJECTS AND SPRITES //////////
 
-    // Add variable for selected cell in hotbar
-    int curCell = 0;
-
-    // For the UI
-    bool pressed = false;
-    
-    // For the inventory
-    bool pressed2 = false;
-
-    // Sprites for when the palyer digs
-    std::vector<sf::Sprite*> dirtSprites;
     std::vector<Vegetable*> vegetables;
+    std::vector<sf::Sprite*> dirtSprites;
     std::vector<sf::Sprite*> flowerSprites;
 
     // Load a texture for the flowers
     sf::Texture flowerTexture;
     flowerTexture.loadFromFile("Sprites/Objects/Basic_Grass_Biom_things.png", sf::IntRect(112, 34, 16, 16));
+
+    ////////// CREATING INVENTORY UI //////////
 
     // Inventory cells and sprites
     sf::RectangleShape* inventoryCells[10];
@@ -99,16 +121,15 @@ int main()
 
     // Create inventory
     for (int i = 0; i < 10; i++) {
+        // Craete cell rectangle shape
         sf::RectangleShape* cell = new sf::RectangleShape;
         cell->setSize(sf::Vector2f(100.f, 100.f));
         cell->setPosition(sf::Vector2f(((1920 * 0.5) - 600) + (120 * i), 960));
         cell->setFillColor(sf::Color::White);
 
+        // Add it to the array
         inventoryCells[i] = cell;
 
-
-
-        //////// Adding sprites to the inventory /////////
         // Create icon sprite
         sf::Sprite* iconSprite = new sf::Sprite;
         // Create icon texture
@@ -134,32 +155,62 @@ int main()
         inventoryIcons[i] = iconSprite;
     }
 
-
-
     // Create border for selected cell
     sf::RectangleShape cellBorder;
     cellBorder.setSize(sf::Vector2f(110.f, 110.f));
     cellBorder.setFillColor(sf::Color::Black);
 
-
+    ////////// CREATING TEXT UI //////////
 
     // Create font
     sf::Font font;
     font.loadFromFile("Fonts/upheavtt.ttf");
 
     // Create money text
-    sf::Text text;
-    text.setFont(font); // font is a sf::Font
-    text.setString("$" + std::to_string(farm.getMoney()));
-    text.setCharacterSize(80);
-    text.setFillColor(sf::Color::White);
-    text.setStyle(sf::Text::Bold);
+    sf::Text moneyText;
+    moneyText.setFont(font); // font is a sf::Font
+    moneyText.setString("$" + std::to_string(farm.getMoney()));
+    moneyText.setCharacterSize(60);
+    moneyText.setFillColor(sf::Color::White);
+    moneyText.setStyle(sf::Text::Bold);
+    moneyText.setOutlineColor(sf::Color(0,0,0,225));
+    moneyText.setOutlineThickness(5);
+    moneyText.setPosition(35, 0);
 
-    text.setOutlineColor(sf::Color(0,0,0,225));
-    text.setOutlineThickness(5);
+    // Create day text
+    sf::Text dayText;
+    dayText.setFont(font); // font is a sf::Font
+    dayText.setString("asdsdfsdf");
+    dayText.setCharacterSize(60);
+    dayText.setFillColor(sf::Color::White);
+    dayText.setStyle(sf::Text::Bold);
+    dayText.setOutlineColor(sf::Color(0,0,0,225));
+    dayText.setOutlineThickness(5);
+    dayText.setPosition(35, 60);
 
-    text.setPosition(40, 0);
+    // Create season text
+    sf::Text seasonText;
+    seasonText.setFont(font); // font is a sf::Font
+    seasonText.setString("sdfsdfsdf");
+    seasonText.setCharacterSize(60);
+    seasonText.setFillColor(sf::Color::White);
+    seasonText.setStyle(sf::Text::Bold);
+    seasonText.setOutlineColor(sf::Color(0,0,0,225));
+    seasonText.setOutlineThickness(5);
+    seasonText.setPosition(35, 120);
 
+    // Create time text
+    sf::Text timeText;
+    timeText.setFont(font); // font is a sf::Font
+    timeText.setString("456456");
+    timeText.setCharacterSize(60);
+    timeText.setFillColor(sf::Color::White);
+    timeText.setStyle(sf::Text::Bold);
+    timeText.setOutlineColor(sf::Color(0,0,0,225));
+    timeText.setOutlineThickness(5);
+    timeText.setPosition(850, 0);
+
+    ////////// MAIN SFML CODE //////////
 
     // While the window is open (user hasn't closed it)
     sf::Clock clock;
@@ -176,14 +227,60 @@ int main()
                 window.close();
         }
 
+        // Setting the time variable
+        time += elapsed.asSeconds() * fastForwardTime;
+
+        // Convert the float time to an int and set it to the seconds variable
+        seconds = int(time);
+
+        // Calculate months
+        months = seconds / 2629746;
+        seconds = seconds - (months * 2629746);
+        
+        // Calculate days
+        days = seconds / (24 * 3600);
+        seconds = seconds - (days * 24 * 3600);
+
+        // Calculate hours
+        hours = seconds / 3600;
+        seconds = seconds - (hours * 3600);
+
+        // Calculate minutes
+        minutes = seconds / 60;
+        seconds = seconds - (minutes * 60);
+
+        // Set season variable
+        switch (months)
+        {
+            case 0:
+                season = "Summer";
+                break;
+            case 3:
+                season = "Autumn";
+                break;
+            case 6:
+                season = "Winter";
+                break;
+            case 9:
+                season = "Spring";
+                break;
+            default:
+                break;
+        }
+
+        // Setting the time, date and season UI
+        timeText.setString(std::to_string(hours) + ":" + std::to_string(minutes) + ":" + std::to_string(seconds));
+        dayText.setString("Day: " + std::to_string(days));
+        seasonText.setString(season);
+
         // Inventory controls
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q) && pressed == false) { curCell -= 1; pressed = true; }
-        else if (sf::Keyboard::isKeyPressed(sf::Keyboard::E) && pressed == false) { curCell += 1; pressed = true; }
-        else if (!sf::Keyboard::isKeyPressed(sf::Keyboard::Q) && !sf::Keyboard::isKeyPressed(sf::Keyboard::E)) { pressed = false; }
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q) && invNavigationButtonPressed == false) { curSelectedInvCell -= 1; invNavigationButtonPressed = true; }
+        else if (sf::Keyboard::isKeyPressed(sf::Keyboard::E) && invNavigationButtonPressed == false) { curSelectedInvCell += 1; invNavigationButtonPressed = true; }
+        else if (!sf::Keyboard::isKeyPressed(sf::Keyboard::Q) && !sf::Keyboard::isKeyPressed(sf::Keyboard::E)) { invNavigationButtonPressed = false; }
 
         // Reset hotbar pos when it gets to the edge
-        if (curCell > 9) { curCell = 0; }
-        if (curCell < 0) { curCell = 9; }
+        if (curSelectedInvCell > 9) { curSelectedInvCell = 0; }
+        if (curSelectedInvCell < 0) { curSelectedInvCell = 9; }
 
         // Create direction vector variable
         sf::Vector2f direction;
@@ -205,12 +302,12 @@ int main()
         }
 
         // Check if enough frames has elapsed to play the next frame of the animation
-        skippedFrames += elapsed.asSeconds();
-        if (skippedFrames > user.getAnimFramerate()) { 
-            skippedFrames = 0;
-            curAnimFrame += 1;
-            if (curAnimFrame == 4) { curAnimFrame = 2; };
-            if (length == 0 && curAnimFrame > 1) { curAnimFrame -= 2; }
+        walkAnimSkippedFrames += elapsed.asSeconds();
+        if (walkAnimSkippedFrames > user.getAnimFramerate()) { 
+            walkAnimSkippedFrames = 0;
+            walkAnimFrame += 1;
+            if (walkAnimFrame == 4) { walkAnimFrame = 2; };
+            if (length == 0 && walkAnimFrame > 1) { walkAnimFrame -= 2; }
         }
 
         // Set the direction of the player based off the user input
@@ -219,7 +316,7 @@ int main()
         if (direction.x > 0) { dir = 3; } else if (direction.x < 0) { dir = 2; }
         
         // Set te characters texture to the current animation frame
-        characterSprite.setTexture(characterAnims[dir][curAnimFrame]);
+        characterSprite.setTexture(characterAnims[dir][walkAnimFrame]);
 
         // Move the character in the direction multiplied by the walkSpeed
         characterSprite.move(direction.x * user.getWalkSpeed() * elapsed.asSeconds(), direction.y * user.getWalkSpeed() * elapsed.asSeconds());
@@ -227,22 +324,22 @@ int main()
         // Mouse controls
         if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
         {
-            if (pressed2 == false) {
+            if (placementPressed == false) {
                 //std::cout << dirtSprites.size() << std::endl;
-                pressed2 = true;
+                placementPressed = true;
 
                 sf::Vector2i localPosition = sf::Mouse::getPosition(window);
                 localPosition = sf::Vector2i(localPosition.x - localPosition.x % 80, localPosition.y - localPosition.y % 80);
 
-                if (user.inventory[curCell] != nullptr) {
-                    //std::cout << user.inventory[curCell]->GetName() << std::endl;
+                if (user.inventory[curSelectedInvCell] != nullptr) {
+                    //std::cout << user.inventory[curSelectedInvCell]->GetName() << std::endl;
 
-                    if (user.inventory[curCell]->GetName() == "Shovel") {
+                    if (user.inventory[curSelectedInvCell]->GetName() == "Shovel") {
                         // Dig a hole and "snap" it to the grid
                         dirtSprites.push_back(shovel.digHole(localPosition));
-                    } else if (user.inventory[curCell]->GetName() == "Watering Can") {
+                    } else if (user.inventory[curSelectedInvCell]->GetName() == "Watering Can") {
                         std::cout << "Watering Can selected!\n";
-                    } else if (user.inventory[curCell]->GetName() == "Seeds") {
+                    } else if (user.inventory[curSelectedInvCell]->GetName() == "Seeds") {
                         for (int i = 0; i < (int)dirtSprites.size(); i++) { 
                             if (dirtSprites[i] != nullptr) {
                                 if (dirtSprites[i]->getPosition().x == localPosition.x && dirtSprites[i]->getPosition().y == localPosition.y
@@ -256,11 +353,11 @@ int main()
                                     vegetables.push_back(vegetable);
 
                                     farm.setMoney(farm.getMoney() - 25);
-                                    text.setString("$" + std::to_string(farm.getMoney()));
+                                    moneyText.setString("$" + std::to_string(farm.getMoney()));
                                 }
                             }
                         }
-                    } else if (user.inventory[curCell]->GetName() == "Flower Seeds") {
+                    } else if (user.inventory[curSelectedInvCell]->GetName() == "Flower Seeds") {
                         if (farm.getMoney() > 0) {
 
                             sf::Sprite* flower = new sf::Sprite();
@@ -270,7 +367,7 @@ int main()
                             flowerSprites.push_back(flower);
 
                             farm.setMoney(farm.getMoney() - 5);
-                            text.setString("$" + std::to_string(farm.getMoney()));
+                            moneyText.setString("$" + std::to_string(farm.getMoney()));
 
                             std::cout << "You've planted a flower\n";
                         }
@@ -288,7 +385,7 @@ int main()
 
                                 if (vegetables[i]->getDaysToHarvest() <= 0) {
                                     farm.setMoney(farm.getMoney() + 50);
-                                    text.setString("$" + std::to_string(farm.getMoney()));
+                                    moneyText.setString("$" + std::to_string(farm.getMoney()));
 
                                     vegetables[i] = nullptr;
                                     vegetables.erase(vegetables.begin() + i);
@@ -301,8 +398,28 @@ int main()
                 }
             }
         } else {
-            pressed2 = false;
+            placementPressed = false;
         }
+
+        // Change time
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::T) && fastForwardPressed == false) {
+            fastForwardPressed = true;
+            if (fastForwardTime == 1) {
+                fastForwardTime = 100;
+            } else if (fastForwardTime == 100) {
+                fastForwardTime = 1000;
+            } else if (fastForwardTime == 1000) {
+                fastForwardTime = 10000;
+            } else if (fastForwardTime == 10000) {
+                fastForwardTime = 100000;
+            } else if (fastForwardTime == 100000) {
+                fastForwardTime = 1000000;
+            } else {
+                fastForwardTime = 1;
+            }
+         } else if (!sf::Keyboard::isKeyPressed(sf::Keyboard::T) && fastForwardPressed == true) {
+            fastForwardPressed = false;
+         }
 
         // Grow vegetables
         for (int i = 0; i < (int)vegetables.size(); i++) { 
@@ -313,7 +430,7 @@ int main()
         }
 
         // Set cell border to the currently selected cell
-        cellBorder.setPosition(sf::Vector2f((1920 * 0.5) - 605 + (120 * curCell), 955));
+        cellBorder.setPosition(sf::Vector2f((1920 * 0.5) - 605 + (120 * curSelectedInvCell), 955));
 
         // Draw the window and sprites
         window.clear();
@@ -326,7 +443,10 @@ int main()
         for (int i = 0; i < 10; i++) { window.draw(*inventoryCells[i]); }
         for (int i = 0; i < 10; i++) { window.draw(*inventoryIcons[i]); }
 
-        window.draw(text);
+        window.draw(moneyText);
+        window.draw(timeText);
+        window.draw(dayText);
+        window.draw(seasonText);
         window.display();
     }
     return 0;
