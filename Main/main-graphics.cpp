@@ -128,7 +128,7 @@ int main()
         sf::RectangleShape* cell = new sf::RectangleShape;
         cell->setSize(sf::Vector2f(100.f, 100.f));
         cell->setPosition(sf::Vector2f(((1920 * 0.5) - 600) + (120 * i), 960));
-        cell->setFillColor(sf::Color::White);
+        cell->setFillColor(sf::Color(0,0,0,128));
 
         // Add it to the array
         inventoryCells[i] = cell;
@@ -161,7 +161,7 @@ int main()
     // Create border for selected cell
     sf::RectangleShape cellBorder;
     cellBorder.setSize(sf::Vector2f(110.f, 110.f));
-    cellBorder.setFillColor(sf::Color::Black);
+    cellBorder.setFillColor(sf::Color(0,0,0,128));
 
     ////////// CREATING TEXT UI //////////
 
@@ -289,10 +289,10 @@ int main()
         sf::Vector2f direction;
 
         // Check for user input and set the direction vector
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) { direction.y = -1; }
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) { direction.y = 1; }
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) { direction.x = -1; }
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) { direction.x = 1; }
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up) || sf::Keyboard::isKeyPressed(sf::Keyboard::W)) { direction.y = -1; }
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down) || sf::Keyboard::isKeyPressed(sf::Keyboard::S)) { direction.y = 1; }
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left) || sf::Keyboard::isKeyPressed(sf::Keyboard::A)) { direction.x = -1; }
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right) || sf::Keyboard::isKeyPressed(sf::Keyboard::D)) { direction.x = 1; }
 
         // Get the length of the direction vector
         float length = std::sqrt(direction.x * direction.x + direction.y * direction.y);
@@ -351,7 +351,7 @@ int main()
 
                                     Vegetable* vegetable = new Vegetable;
                                     vegetable->plantVegetable(localPosition);
-                                    vegetable->setDaysToHarvest(10);
+                                    vegetable->setDaysToHarvest(600);
                                     vegetable->set_growthRate(2);
                                     vegetables.push_back(vegetable);
 
@@ -408,15 +408,9 @@ int main()
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::T) && fastForwardPressed == false) {
             fastForwardPressed = true;
             if (fastForwardTime == 1) {
+                fastForwardTime = 10;
+            } else if (fastForwardTime == 10) {
                 fastForwardTime = 100;
-            } else if (fastForwardTime == 100) {
-                fastForwardTime = 1000;
-            } else if (fastForwardTime == 1000) {
-                fastForwardTime = 10000;
-            } else if (fastForwardTime == 10000) {
-                fastForwardTime = 100000;
-            } else if (fastForwardTime == 100000) {
-                fastForwardTime = 1000000;
             } else {
                 fastForwardTime = 1;
             }
@@ -427,7 +421,7 @@ int main()
         // Grow vegetables
         for (int i = 0; i < (int)vegetables.size(); i++) { 
             if (vegetables[i] != nullptr) {
-                vegetables[i]->setDaysToHarvest(vegetables[i]->getDaysToHarvest() - (elapsed.asSeconds() * vegetables[i]->get_growthRate()));
+                vegetables[i]->setDaysToHarvest(vegetables[i]->getDaysToHarvest() - (elapsed.asSeconds() * vegetables[i]->get_growthRate() * fastForwardTime));
                 if (vegetables[i]->getDaysToHarvest() < 0) { 
                     
 
