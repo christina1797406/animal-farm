@@ -91,7 +91,7 @@ int main()
     // Create window
     sf::RenderWindow window(sf::VideoMode(1920, 1080), "Farm Game");
 
-    // Create brackground sprite
+    // Create brackground sprites
     sf::Sprite* grassSprite = farm.createBackground();
     
     // Create an array of textures for the character sprite
