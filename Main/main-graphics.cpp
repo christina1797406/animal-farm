@@ -113,6 +113,9 @@ int main()
     sf::Texture flowerTexture;
     flowerTexture.loadFromFile("Sprites/Objects/Basic_Grass_Biom_things.png", sf::IntRect(112, 34, 16, 16));
 
+    sf::Texture* grownPlantTex = new sf::Texture;
+    grownPlantTex->loadFromFile("Sprites/Objects/Basic_Plants.png", sf::IntRect(64, 0, 16, 16));
+
     ////////// CREATING INVENTORY UI //////////
 
     // Inventory cells and sprites
@@ -425,7 +428,12 @@ int main()
         for (int i = 0; i < (int)vegetables.size(); i++) { 
             if (vegetables[i] != nullptr) {
                 vegetables[i]->setDaysToHarvest(vegetables[i]->getDaysToHarvest() - (elapsed.asSeconds() * vegetables[i]->get_growthRate()));
-                if (vegetables[i]->getDaysToHarvest() < 0) { vegetables[i]->setDaysToHarvest(0); }
+                if (vegetables[i]->getDaysToHarvest() < 0) { 
+                    
+
+                    vegetables[i]->setDaysToHarvest(0); 
+                    vegetables[i]->vegSprite->setTexture(*grownPlantTex);
+                }
             }
         }
 

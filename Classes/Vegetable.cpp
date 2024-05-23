@@ -41,7 +41,7 @@ void Vegetable::plantVegetable(sf::Vector2i pos) {
   sf::Texture* vegetable = new sf::Texture;
   {
       // Set dirt texture
-      vegetable->loadFromFile("Sprites/Objects/Basic_Plants.png", sf::IntRect(64, 0, 16, 16));
+      vegetable->loadFromFile("Sprites/Objects/Basic_Plants.png", sf::IntRect(16, 0, 16, 16));
 
       // Set the dirt sprite texture to the dirt texture
       vegetableSprite->setTexture(*vegetable);
